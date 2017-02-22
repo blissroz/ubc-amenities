@@ -52,7 +52,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_MAIN_TABLE = "CREATE TABLE "
                 + TABLE_ALL + "("
-                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_TYPE + " TEXT)";
         db.execSQL(CREATE_MAIN_TABLE);
 
@@ -122,6 +122,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_RESTR, microwave.getRestrictions());
         values.put(KEY_POWER, microwave.getPower());
         values.put(KEY_CLEAN, microwave.getCleanliness());
+        values.put(KEY_ALL, microwave.getId());
 
         ContentValues all_values = new ContentValues();
         all_values.put(KEY_TYPE, TYPE_MICRO);
@@ -143,6 +144,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_RESTR, couch.getRestrictions());
         values.put(KEY_COMFY, couch.getComfy());
         values.put(KEY_CLEAN, couch.getCleanliness());
+        values.put(KEY_ALL, couch.getId());
 
         ContentValues all_values = new ContentValues();
         all_values.put(KEY_TYPE, TYPE_COUCH);
@@ -165,6 +167,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_TEMP, water.getColdness());
         values.put(KEY_BOTFILLER, water.getBottlefiller());
         values.put(KEY_CLEAN, water.getCleanliness());
+        values.put(KEY_ALL, water.getId());
 
         ContentValues all_values = new ContentValues();
         all_values.put(KEY_TYPE, TYPE_H2O);
@@ -175,36 +178,79 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    // Updating a shop
-    public int updateShop(Shop shop) {
+    // Updating microwave
+    public int updateMicrowave(MicrowaveRecord microwave) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, shop.getName());
-        values.put(KEY_SH_ADDR, shop.getAddress());
+        values.put(KEY_LOC, microwave.getLocationdesc());
+        values.put(KEY_DESC, microwave.getDescription());
+        values.put(KEY_LAT, microwave.getLat());
+        values.put(KEY_LON, microwave.getLon());
+        values.put(KEY_RESTR, microwave.getRestrictions());
+        values.put(KEY_POWER, microwave.getPower());
+        values.put(KEY_CLEAN, microwave.getCleanliness());
+        values.put(KEY_ALL, microwave.getId());
         // updating row
-        return db.update(TABLE_SHOPS, values, KEY_ID + " = ?",
-                new String[]{String.valueOf(shop.getId())});
+        return db.update(TABLE_MICRO, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(microwave.getId())});
     }
 
-    // Getting All Shops
-    public List<Shop> getAllShops() {
-        List<Shop> shopList = new ArrayList<Shop>();
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_SHOPS;
+    // Updating couch
+    public int updateCouch(CouchRecord couch) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                Shop shop = new Shop();
-                shop.setId(Integer.parseInt(cursor.getString(0)));
-                shop.setName(cursor.getString(1));
-                shop.setAddress(cursor.getString(2));
-                // Adding contact to list
-                shopList.add(shop);
-            } while (cursor.moveToNext());
-        }
-        // return contact list
-        return shopList;
+        ContentValues values = new ContentValues();
+        values.put(KEY_LOC, couch.getLocationdesc());
+        values.put(KEY_DESC, couch.getDescription());
+        values.put(KEY_LAT, couch.getLat());
+        values.put(KEY_LON, couch.getLon());
+        values.put(KEY_RESTR, couch.getRestrictions());
+        values.put(KEY_COMFY, couch.getComfy());
+        values.put(KEY_CLEAN, couch.getCleanliness());
+        values.put(KEY_ALL, couch.getId());
+        // updating row
+        return db.update(TABLE_COUCH, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(couch.getId())});
+    }
+
+    // updating water fountain
+    public int updateWater(WaterRecord water) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_LOC, water.getLocationdesc());
+        values.put(KEY_DESC, water.getDescription());
+        values.put(KEY_LAT, water.getLat());
+        values.put(KEY_LON, water.getLon());
+        values.put(KEY_RESTR, water.getRestrictions());
+        values.put(KEY_TEMP, water.getColdness());
+        values.put(KEY_BOTFILLER, water.getBottlefiller());
+        values.put(KEY_CLEAN, water.getCleanliness());
+        values.put(KEY_ALL, water.getId());
+        // updating row
+        return db.update(TABLE_H2O, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(water.getId())});
+    }
+
+    // Deleting a microwave
+    public void deleteMicrowave(MicrowaveRecord microwave) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MICRO, KEY_ID + " = ?",
+                new String[] { String.valueOf(microwave.getId()) });
+        db.close();
+    }
+
+    // Deleting a couch
+    public void deleteCouch(CouchRecord couch) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_COUCH, KEY_ID + " = ?",
+                new String[] { String.valueOf(couch.getId()) });
+        db.close();
+    }
+
+    // Deleting a water fountain
+    public void deleteWater(WaterRecord water) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_H2O, KEY_ID + " = ?",
+                new String[] { String.valueOf(water.getId()) });
+        db.close();
     }
 }
