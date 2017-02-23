@@ -1,5 +1,7 @@
 package ca.blissroz.ubcamenity;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by bliss on 2017-02-20.
  */
@@ -10,9 +12,9 @@ public class WaterRecord extends AbstractAmenity {
 
     public WaterRecord() {}
 
-    public WaterRecord(int lat, int lon, int cleanliness, String description, String locationdesc,
+    public WaterRecord(LatLng latlon, int cleanliness, String description, String locationdesc,
                        String restrictions, int coldness, boolean bottlefiller, int id) {
-        super(lat, lon, cleanliness, description, locationdesc, restrictions, id);
+        super(latlon, cleanliness, description, locationdesc, restrictions, id);
         this.coldness = coldness;
         this.bottlefiller = bottlefiller;
     }

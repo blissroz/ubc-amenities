@@ -27,8 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TYPE_COUCH = "Couch";
     // in water/micro/couches
     private static final String KEY_ID = "id";
-    private static final String KEY_LAT = "lat";
-    private static final String KEY_LON = "lon";
+    private static final String KEY_LATLON = "latlon";
     private static final String KEY_LOC = "location";
     private static final String KEY_DESC = "description";
     private static final String KEY_RESTR = "restrictions";
@@ -59,8 +58,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_LOC + " TEXT,"
                 + KEY_DESC + " TEXT,"
-                + KEY_LAT + " DOUBLE,"
-                + KEY_LON + " DOUBLE,"
+                + KEY_LATLON + " TEXT,"
                 + KEY_RESTR + " TEXT,"
                 + KEY_POWER + " INT,"
                 + KEY_CLEAN  + " INT,"
@@ -73,8 +71,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_LOC + " TEXT,"
                 + KEY_DESC + " TEXT,"
-                + KEY_LAT + " DOUBLE,"
-                + KEY_LON + " DOUBLE,"
+                + KEY_LATLON + " TEXT,"
                 + KEY_RESTR + " TEXT,"
                 + KEY_COMFY + " INT,"
                 + KEY_CLEAN  + " INT,"
@@ -87,8 +84,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_LOC + " TEXT,"
                 + KEY_DESC + " TEXT,"
-                + KEY_LAT + " DOUBLE,"
-                + KEY_LON + " DOUBLE,"
+                + KEY_LATLON + " TEXT,"
                 + KEY_RESTR + " TEXT,"
                 + KEY_TEMP + " INT,"
                 + KEY_BOTFILLER + " BOOL,"
@@ -115,8 +111,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_LOC, microwave.getLocationdesc());
         values.put(KEY_DESC, microwave.getDescription());
-        values.put(KEY_LAT, microwave.getLat());
-        values.put(KEY_LON, microwave.getLon());
+        values.put(KEY_LATLON, microwave.getLatLonString());
         values.put(KEY_RESTR, microwave.getRestrictions());
         values.put(KEY_POWER, microwave.getPower());
         values.put(KEY_CLEAN, microwave.getCleanliness());
@@ -137,8 +132,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_LOC, couch.getLocationdesc());
         values.put(KEY_DESC, couch.getDescription());
-        values.put(KEY_LAT, couch.getLat());
-        values.put(KEY_LON, couch.getLon());
+        values.put(KEY_LATLON, couch.getLatLonString());
         values.put(KEY_RESTR, couch.getRestrictions());
         values.put(KEY_COMFY, couch.getComfy());
         values.put(KEY_CLEAN, couch.getCleanliness());
@@ -159,8 +153,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_LOC, water.getLocationdesc());
         values.put(KEY_DESC, water.getDescription());
-        values.put(KEY_LAT, water.getLat());
-        values.put(KEY_LON, water.getLon());
+        values.put(KEY_LATLON, water.getLatLonString());
         values.put(KEY_RESTR, water.getRestrictions());
         values.put(KEY_TEMP, water.getColdness());
         values.put(KEY_BOTFILLER, water.getBottlefiller());
@@ -182,8 +175,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_LOC, microwave.getLocationdesc());
         values.put(KEY_DESC, microwave.getDescription());
-        values.put(KEY_LAT, microwave.getLat());
-        values.put(KEY_LON, microwave.getLon());
+        values.put(KEY_LATLON, microwave.getLatLonString());
         values.put(KEY_RESTR, microwave.getRestrictions());
         values.put(KEY_POWER, microwave.getPower());
         values.put(KEY_CLEAN, microwave.getCleanliness());
@@ -199,8 +191,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_LOC, couch.getLocationdesc());
         values.put(KEY_DESC, couch.getDescription());
-        values.put(KEY_LAT, couch.getLat());
-        values.put(KEY_LON, couch.getLon());
+        values.put(KEY_LATLON, couch.getLatLonString());
         values.put(KEY_RESTR, couch.getRestrictions());
         values.put(KEY_COMFY, couch.getComfy());
         values.put(KEY_CLEAN, couch.getCleanliness());
@@ -216,8 +207,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_LOC, water.getLocationdesc());
         values.put(KEY_DESC, water.getDescription());
-        values.put(KEY_LAT, water.getLat());
-        values.put(KEY_LON, water.getLon());
+        values.put(KEY_LATLON, water.getLatLonString());
         values.put(KEY_RESTR, water.getRestrictions());
         values.put(KEY_TEMP, water.getColdness());
         values.put(KEY_BOTFILLER, water.getBottlefiller());
