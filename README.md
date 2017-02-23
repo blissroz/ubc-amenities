@@ -1,2 +1,0 @@
-# ubc-amenities
-WIP
