@@ -8,18 +8,14 @@ import com.google.android.gms.maps.model.LatLng;
 
 public abstract class AbstractAmenity {
     private LatLng latlon;
-    private int cleanliness;
     private String description;
     private String locationdesc;
     private String restrictions;
     private int id;
 
-    public AbstractAmenity() {}
-
-    public AbstractAmenity(LatLng latlon, int cleanliness, String description,
+    public AbstractAmenity(LatLng latlon, String description,
                            String locationdesc, String restrictions, int id) {
         this.latlon = latlon;
-        this.cleanliness = cleanliness;
         this.description = description;
         this.locationdesc = locationdesc;
         this.restrictions = restrictions;
@@ -27,11 +23,11 @@ public abstract class AbstractAmenity {
     }
 
     public LatLng parseLatLon(String latlon){
-        return new LatLng(Double.valueOf(latlon.split(",")[0]), Double.valueOf(latlon.split(",")[1]));
+        return new LatLng(Double.parseDouble(latlon.split(",")[0]),
+                Double.parseDouble(latlon.split(",")[1]));
     }
 
     public void setLatLon(LatLng latlon){ this.latlon = latlon; }
-    public void setCleanliness(int cleanliness){ this.cleanliness = cleanliness; }
     public void setDescription(String description){ this.description = description; }
     public void setLocationdesc(String locationdesc){ this.locationdesc = locationdesc; }
     public void setRestrictions(String restrictions){ this.restrictions = restrictions; }
@@ -39,7 +35,6 @@ public abstract class AbstractAmenity {
 
     public LatLng getLatLon(){ return this.latlon; }
     public String getLatLonString() { return this.latlon.toString(); }
-    public int getCleanliness() { return this.cleanliness; }
     public String getDescription() { return this.description; }
     public String getLocationdesc() { return this.locationdesc; }
     public String getRestrictions() { return this.restrictions; }
