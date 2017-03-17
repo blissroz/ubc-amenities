@@ -19,13 +19,15 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TABLE_H2O = "water";
     private static final String TABLE_MICRO = "microwaves";
     private static final String TABLE_COUCH = "couches";
+    private static final String TABLE_MAIL = "mailboxes";
     // in summary
     private static final String KEY_ALL = "all id";
     private static final String KEY_TYPE = "type";
     private static final String TYPE_MICRO = "Microwave";
     private static final String TYPE_H2O = "Water";
     private static final String TYPE_COUCH = "Couch";
-    // in water/micro/couches
+    private static final String TYPE_MAIL = "Mailbox";
+    // in water/micro/couches/mailbox
     private static final String KEY_ID = "id";
     private static final String KEY_LATLON = "latlon";
     private static final String KEY_LOC = "location";
@@ -50,7 +52,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String CREATE_MAIN_TABLE = "CREATE TABLE "
                 + TABLE_ALL + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_TYPE + " TEXT)";
+                + KEY_TYPE + " TEXT NOT NULL)";
         db.execSQL(CREATE_MAIN_TABLE);
 
         String CREATE_MICROWAVE_TABLE = "CREATE TABLE "
@@ -58,7 +60,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_LOC + " TEXT,"
                 + KEY_DESC + " TEXT,"
-                + KEY_LATLON + " TEXT,"
+                + KEY_LATLON + " TEXT NOT NULL,"
                 + KEY_RESTR + " TEXT,"
                 + KEY_POWER + " INT,"
                 + KEY_CLEAN  + " INT,"
@@ -71,7 +73,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_LOC + " TEXT,"
                 + KEY_DESC + " TEXT,"
-                + KEY_LATLON + " TEXT,"
+                + KEY_LATLON + " TEXT NOT NULL,"
                 + KEY_RESTR + " TEXT,"
                 + KEY_COMFY + " INT,"
                 + KEY_CLEAN  + " INT,"
@@ -84,7 +86,21 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_LOC + " TEXT,"
                 + KEY_DESC + " TEXT,"
-                + KEY_LATLON + " TEXT,"
+                + KEY_LATLON + " TEXT NOT NULL,"
+                + KEY_RESTR + " TEXT,"
+                + KEY_TEMP + " INT,"
+                + KEY_BOTFILLER + " BOOL,"
+                + KEY_CLEAN  + " INT,"
+                + KEY_ALL + " INT,"
+                + " FOREIGN KEY ("+KEY_ALL+") REFERENCES "+TABLE_ALL+"("+KEY_ID+"));";
+        db.execSQL(CREATE_WATER_TABLE);
+
+        String CREATE_MAIL_TABLE = "CREATE TABLE "
+                + TABLE_MAIL + "("
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + KEY_LOC + " TEXT,"
+                + KEY_DESC + " TEXT,"
+                + KEY_LATLON + " TEXT NOT NULL,"
                 + KEY_RESTR + " TEXT,"
                 + KEY_TEMP + " INT,"
                 + KEY_BOTFILLER + " BOOL,"
