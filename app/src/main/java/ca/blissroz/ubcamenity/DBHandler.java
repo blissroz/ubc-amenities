@@ -33,6 +33,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_LOC = "location";
     private static final String KEY_DESC = "description";
     private static final String KEY_RESTR = "restrictions";
+    // in water/micro/couches
     private static final String KEY_CLEAN = "cleanliness";
     // in water
     private static final String KEY_TEMP = "coldness";
@@ -102,12 +103,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_DESC + " TEXT,"
                 + KEY_LATLON + " TEXT NOT NULL,"
                 + KEY_RESTR + " TEXT,"
-                + KEY_TEMP + " INT,"
-                + KEY_BOTFILLER + " BOOL,"
-                + KEY_CLEAN  + " INT,"
                 + KEY_ALL + " INT,"
                 + " FOREIGN KEY ("+KEY_ALL+") REFERENCES "+TABLE_ALL+"("+KEY_ID+"));";
-        db.execSQL(CREATE_WATER_TABLE);
+        db.execSQL(CREATE_MAIL_TABLE);
     }
 
     @Override
@@ -117,6 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MICRO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_H2O);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COUCH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MAIL);
         // Creating tables again
         onCreate(db);
     }
@@ -185,6 +184,25 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
+    // Adding new mailbox
+    public void addMail(MailboxRecord box) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_LOC, box.getLocationdesc());
+        values.put(KEY_DESC, box.getDescription());
+        values.put(KEY_LATLON, box.getLatLonString());
+        values.put(KEY_RESTR, box.getRestrictions());
+        values.put(KEY_ALL, box.getId());
+
+        ContentValues all_values = new ContentValues();
+        all_values.put(KEY_TYPE, TYPE_MAIL);
+
+        // Inserting Row
+        db.insert(TABLE_MAIL, null, values);
+        db.insert(TABLE_ALL, null, all_values);
+        db.close(); // Closing database connection
+    }
+
     // Updating microwave
     public int updateMicrowave(MicrowaveRecord microwave) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -234,6 +252,20 @@ public class DBHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(water.getId())});
     }
 
+    // updating mailbox
+    public int updateMail(MailboxRecord box) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_LOC, box.getLocationdesc());
+        values.put(KEY_DESC, box.getDescription());
+        values.put(KEY_LATLON, box.getLatLonString());
+        values.put(KEY_RESTR, box.getRestrictions());
+        values.put(KEY_ALL, box.getId());
+        // updating row
+        return db.update(TABLE_MAIL, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(box.getId())});
+    }
+
     // Deleting a microwave
     public void deleteMicrowave(MicrowaveRecord microwave) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -255,6 +287,14 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_H2O, KEY_ID + " = ?",
                 new String[] { String.valueOf(water.getId()) });
+        db.close();
+    }
+
+    // Deleting a mailbox
+    public void deleteMail(MailboxRecord box) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MAIL, KEY_ID + " = ?",
+                new String[] { String.valueOf(box.getId()) });
         db.close();
     }
 }
